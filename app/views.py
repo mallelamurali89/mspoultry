@@ -9,6 +9,11 @@ def index(request):
         return redirect("/login.html")
     return html(request, "index")
 
+def expense(request):
+    if request.user.is_anonymous:
+        return redirect("/login.html")
+    return html(request, "expense")
+
 
 def html(request, filename):
     context = {"filename": filename,
