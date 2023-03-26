@@ -128,3 +128,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 MEDIA_URL = '/uploads/'
+
+CRONJOBS = [
+    ('*/2 * * * *', 'app.cron.my_cron_job')
+]

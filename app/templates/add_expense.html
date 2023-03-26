@@ -9,10 +9,50 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/save_expense">Save</a>
+                <div class="modal-body">
+                    <form class="user" method="post" id='formForm1' name="formForm1">
+                        {% csrf_token %}
+                        
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="date" name="expDate" class="form-control " id="expDate"
+                                    placeholder="Date">
+                            </div>
+                            <div class="col-sm-6">
+                                <select name="expType" class="form-control " id="expType" placeholder="Type">
+                                    <option value="" disabled selected>Select type</option>
+                                    <option value="products">Products</option>
+                                    <option value="hatching">Hatching</option>
+                                    <option value="traveling">Traveling</option>
+                                    <option value="chick_feed">Chick Feed</option>
+                                    <option value="grower_feed">Grower Feed</option>
+                                    <option value="layer_feed">Layer Feed</option>
+                                    <option value="medicines">Medicines</option>
+                                    <option value="workers">Workers</option>
+                                    <option value="rent">Rent</option>
+                                    <option value="others">Others</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="expDesc" class="form-control" id="expDesc"
+                                placeholder="Write Description">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="expAmount" class="form-control" id="expAmount"
+                                placeholder="Add amount">
+                        </div>
+                            <button type="submit" class="btn btn-primary" >
+                                Save
+                            </button>
+                            <div class="form-group" style="color:green"  align="center">
+                                {%if messages %}
+                                {%for result in messages%}
+                                {{result}}
+                                {% endfor %}
+                                {% endif %}
+                              </div>
+                    </form>
                 </div>
             </div>
         </div>
