@@ -21,8 +21,6 @@ def index(request):
         request.session['usr_profile'] = {'name': request.user.username.capitalize()}
 
     some_day_plus_21 = timezone.now().date() + timedelta(days=21)
-    print(timezone.now().date())
-    print(some_day_plus_21)
 
     items = Expenses.objects.all()
     total_expenses = sum(items.values_list('exp_amount', flat=True))
@@ -41,13 +39,15 @@ def index(request):
     total_amt_oth = "%.2f" % ( sum(items.filter(exp_type='others').values_list('exp_amount', flat=True))/total_expenses*100)
 
     total_exp = babel.numbers.format_currency(total_expenses, 'INR', locale='en_IN')
+    murali_exp = babel.numbers.format_currency(total_amt_murali, 'INR', locale='en_IN')
+    srikanth_exp = babel.numbers.format_currency(total_amt_sri, 'INR', locale='en_IN')
     # return html(request, "index")
-    return render(request,'index.html',{'tot_exp':total_exp,'tot_murali_exp':total_amt_murali/total_expenses*100,'tot_sri_exp':total_amt_sri/total_expenses*100,'pro':total_amt_pro,'hat':total_amt_hat,'tra':total_amt_tra,'chf':total_amt_chf,'gwf':total_amt_gwf,'lyf':total_amt_lyf,'med':total_amt_med,'wrk':total_amt_wrk,'rnt':total_amt_rnt,'oth':total_amt_oth})
+    return render(request,'index.html',{'tot_exp':total_exp,'tot_murali_exp':total_amt_murali/total_expenses*100,'tot_sri_exp':total_amt_sri/total_expenses*100,'pro':total_amt_pro,'hat':total_amt_hat,'tra':total_amt_tra,'chf':total_amt_chf,'gwf':total_amt_gwf,'lyf':total_amt_lyf,'med':total_amt_med,'wrk':total_amt_wrk,'rnt':total_amt_rnt,'oth':total_amt_oth,'murali_exp':murali_exp,'srikanth_exp':srikanth_exp})
 
 def expense(request):
     listofExpenses = Expenses.objects.all()
     # gc = gspread.service_account(filename='./gsheet_credentials.json')
-    # sh = gc.open_by_key('1yZYtgxAuSN72Eqz0RXL0Km0VmFXqzbRiUXPljsb1Lsc')
+    # sh = gc.open_by_key('')
     # sheet_name = request.user.username.capitalize()+" Expenses"
     # worksheet = sh.worksheet(sheet_name)
     # insertRow = ["24/3/23","traveling charges for vijayawada (400 petrol + Tea and Tiffen (30))",430]
@@ -78,10 +78,10 @@ def expense(request):
 
             #update expenses into google sheet - start
             gc = gspread.service_account(filename='./gsheet_credentials.json')
-            sh = gc.open_by_key('1yZYtgxAuSN72Eqz0RXL0Km0VmFXqzbRiUXPljsb1Lsc')
+            sh = gc.open_by_key('')
             sheet_name = request.user.username.capitalize()+" Expenses"
             worksheet = sh.worksheet(sheet_name)
-            insertRow = [request.POST.get("expDate"),request.POST.get("expDesc"),request.POST.get("expAmount")]
+            insertRow = [request.POST.get("expDate"),request.POST.get("expDesc"),int(request.POST.get("expAmount"))]
             worksheet.append_row(insertRow)
             #update expenses into google sheet - end
             if request.POST.get("expType") == 'hatching':

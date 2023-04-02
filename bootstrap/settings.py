@@ -132,3 +132,8 @@ MEDIA_URL = '/uploads/'
 CRONJOBS = [
     ('*/2 * * * *', 'app.cron.my_cron_job')
 ]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST =(
+     'https://1a92-117-251-0-228.in.ngrok.io/',
+)
+ALLOWED_HOSTS = ['*']
